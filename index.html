@@ -49,7 +49,7 @@
           <h1>Trustworthy AI for programme operations.</h1>
         </div>
         <div class="topbar-actions">
-          <span class="status-pill"><i></i> Demo ready</span>
+          <span class="status-pill"><i></i> Control-plane demo</span>
           <a class="ghost-link" href="https://github.com/mikelninh/missionops-plan" target="_blank" rel="noreferrer">GitHub ↗</a>
         </div>
       </header>
@@ -59,10 +59,10 @@
           <div class="hero-copy">
             <div class="badge">90-second golden case</div>
             <h2>From project report to an approved, auditable action.</h2>
-            <p>MissionOps reviews a synthetic programme report, checks whether important claims are actually supported, protects sensitive data before AI processing, and keeps a human in control of every external action.</p>
+            <p>MissionOps uses a synthetic programme case to demonstrate the controls around an AI-assisted workflow: evidence stays inspectable, sensitive context is minimised, and external actions remain under human authority.</p>
             <div class="hero-actions">
               <button id="start-demo" class="primary-btn">Open demo case <span>→</span></button>
-              <button class="secondary-btn" data-jump="architecture">See how it works</button>
+              <button class="secondary-btn" data-jump="architecture">See what is implemented</button>
             </div>
           </div>
           <div class="hero-flow" aria-label="Workflow overview">
@@ -86,8 +86,8 @@
               <p class="muted">Synthetic demonstration · Nepal · reporting period Jan–Jun 2026</p>
             </div>
             <div class="report-score">
-              <span>Report readiness</span>
-              <strong id="score-number">78</strong><small>/100</small>
+              <span>Claims needing review</span>
+              <strong id="score-number">2</strong><small>/4</small>
             </div>
           </div>
 
@@ -103,9 +103,9 @@
             <div class="panel-title-row">
               <div>
                 <p class="section-kicker">EVIDENCE CHECK</p>
-                <h3>3 claims need attention before this report moves forward.</h3>
+                <h3>2 claims need attention before this report moves forward.</h3>
               </div>
-              <div class="mini-stat"><strong>12</strong><span>evidence passages retrieved</span></div>
+              <div class="mini-stat"><strong>4</strong><span>claims evaluated</span></div>
             </div>
 
             <div class="claims-table">
@@ -142,27 +142,27 @@
             <div class="split-grid">
               <div>
                 <p class="section-kicker">SAFEGUARDING + PRIVACY GATE</p>
-                <h3>Sensitive information is minimised before AI processing.</h3>
-                <p class="muted">The demo intentionally includes synthetic identifiers to show where the control boundary sits.</p>
+                <h3>Sensitive information is minimised before any downstream AI call.</h3>
+                <p class="muted">The demo intentionally includes four pre-labelled synthetic identifiers to make the control boundary inspectable.</p>
 
                 <div class="privacy-summary">
-                  <div><span class="privacy-icon">✦</span><span><b>4 identifiers detected</b><small>Names, exact location, phone number</small></span></div>
-                  <div><span class="privacy-icon">↳</span><span><b>4 identifiers masked</b><small>Original report remains unchanged</small></span></div>
-                  <div><span class="privacy-icon">⌁</span><span><b>Approved model route selected</b><small>Only minimised context leaves the document boundary</small></span></div>
+                  <div><span class="privacy-icon">✦</span><span><b>4 synthetic identifiers in fixture</b><small>Person, child name, precise location, phone number</small></span></div>
+                  <div><span class="privacy-icon">↳</span><span><b>4 identifiers masked</b><small>Original synthetic source remains unchanged</small></span></div>
+                  <div><span class="privacy-icon">⌁</span><span><b>Downstream AI boundary defined</b><small>This prototype does not call an external model</small></span></div>
                   <div><span class="privacy-icon">✓</span><span><b>External actions remain blocked</b><small>Human approval required</small></span></div>
                 </div>
               </div>
 
               <div class="document-card">
-                <div class="document-head"><span>Sanitised excerpt</span><span class="pill success">Safe to process</span></div>
+                <div class="document-head"><span>Minimised model context</span><span class="pill neutral">DEMO</span></div>
                 <p>During the reporting period, the local facilitator <mark>[PERSON REDACTED]</mark> coordinated attendance follow-up in <mark>[PRECISE LOCATION REDACTED]</mark>.</p>
-                <p>One participant, <mark>[CHILD NAME REDACTED]</mark>, was referenced in a case note. A family contact number <mark>[PHONE REDACTED]</mark> was removed before model processing.</p>
-                <div class="document-note">The original synthetic document is preserved separately. Redaction is applied to the model context, not destructively to the source.</div>
+                <p>One participant, <mark>[CHILD NAME REDACTED]</mark>, was referenced in a case note. A family contact number <mark>[PHONE REDACTED]</mark> was removed before downstream processing.</p>
+                <div class="document-note">The original synthetic document is preserved separately. Minimisation changes the downstream context, not the source.</div>
               </div>
             </div>
 
             <div class="panel-footer">
-              <p><strong>Control:</strong> data minimisation happens before retrieval/generation, not after the answer is produced.</p>
+              <p><strong>Control:</strong> production model or retrieval adapters would receive the minimised context, not the raw fixture.</p>
               <button class="primary-btn next-step" data-next="3">Generate recommended action <span>→</span></button>
             </div>
           </div>
@@ -176,7 +176,7 @@
                 <span class="priority-tag">HIGH PRIORITY</span>
                 <h4>Request comparable baseline evidence for the dropout claim.</h4>
                 <p>The report claims a significant reduction in dropout, but the evidence set does not contain a comparable baseline or denominator. The claim should be clarified before external reporting or decision-making.</p>
-                <div class="why-row"><span>Impact: <b>High</b></span><span>Confidence: <b>0.94</b></span><span>Evidence gap: <b>Baseline</b></span></div>
+                <div class="why-row"><span>Impact: <b>High</b></span><span>Decision rule: <b>baseline + current + denominator required</b></span></div>
               </div>
               <div class="recommendation-side">
                 <span>Proposed workflow</span>
@@ -186,8 +186,7 @@
             </div>
 
             <div class="other-actions">
-              <div><span class="pill warning">Medium</span><p><b>Verify participant count</b><small>Cross-check attendance and completion registers.</small></p></div>
-              <div><span class="pill warning">Medium</span><p><b>Strengthen qualitative evidence</b><small>Request broader community feedback for acceptance claim.</small></p></div>
+              <div><span class="pill warning">Medium</span><p><b>Qualify the acceptance claim</b><small>Broaden the qualitative sample or narrow the wording to the available interviews.</small></p></div>
             </div>
 
             <div class="panel-footer">
@@ -200,9 +199,9 @@
             <div class="approval-layout">
               <div>
                 <p class="section-kicker">HUMAN APPROVAL REQUIRED</p>
-                <h3>The AI has prepared the work. A person remains accountable for the action.</h3>
+                <h3>The system has prepared the work. A person remains accountable for the action.</h3>
                 <div class="permission-box">
-                  <div><span class="lock">⌁</span><span><b>Permission gate</b><small><code>send_external_message</code> is not granted to the agent.</small></span></div>
+                  <div><span class="lock">⌁</span><span><b>Permission gate</b><small><code>send_external_message</code> is not granted to the automated step.</small></span></div>
                   <span class="pill danger">BLOCKED</span>
                 </div>
               </div>
@@ -229,13 +228,13 @@
             <div class="success-state">
               <div class="success-mark">✓</div>
               <p class="section-kicker">WORKFLOW COMPLETE</p>
-              <h3>Approved action executed. The full decision path is preserved.</h3>
-              <p>No autonomous external action occurred. The system prepared, the human approved, the workflow executed, and every material step was logged.</p>
+              <h3>Approved simulated action executed. The decision path is preserved.</h3>
+              <p>No autonomous external action occurred. The control engine prepared the action, a human approval was recorded, the simulated adapter executed, and the material steps were logged.</p>
               <div class="completion-grid">
-                <div><strong>3</strong><span>evidence gaps surfaced</span></div>
+                <div><strong>2</strong><span>claims flagged for review</span></div>
                 <div><strong>4</strong><span>identifiers minimised</span></div>
                 <div><strong>1</strong><span>human approval</span></div>
-                <div><strong>100%</strong><span>material steps logged</span></div>
+                <div><strong>100%</strong><span>material demo steps logged</span></div>
               </div>
               <button class="primary-btn" data-jump="audit">Inspect audit trail <span>→</span></button>
             </div>
@@ -247,32 +246,33 @@
         <div class="page-intro">
           <p class="section-kicker">CASE PID-2026-0184</p>
           <h2>Audit trail</h2>
-          <p>One place to answer: what happened, why, with which evidence, under whose authority?</p>
+          <p>A synthetic trace showing what happened, why, with which evidence and under whose authority.</p>
         </div>
 
         <div class="audit-layout">
           <div class="timeline-card">
-            <div class="timeline-row"><span class="time">14:03:12</span><span class="dot"></span><div><b>Report ingested</b><small>SHA-256 fingerprint recorded · source preserved</small></div><span class="pill neutral">INPUT</span></div>
-            <div class="timeline-row"><span class="time">14:03:13</span><span class="dot"></span><div><b>Sensitive data classification completed</b><small>4 synthetic identifiers detected</small></div><span class="pill success">PASS</span></div>
-            <div class="timeline-row"><span class="time">14:03:13</span><span class="dot"></span><div><b>Model context minimised</b><small>4 identifiers masked before downstream processing</small></div><span class="pill success">PASS</span></div>
-            <div class="timeline-row"><span class="time">14:03:15</span><span class="dot"></span><div><b>Evidence retrieval completed</b><small>12 passages · 4 claims evaluated</small></div><span class="pill neutral">RAG</span></div>
+            <div class="timeline-row"><span class="time">14:03:12</span><span class="dot"></span><div><b>Synthetic case loaded</b><small>Source fixture preserved for replay</small></div><span class="pill neutral">INPUT</span></div>
+            <div class="timeline-row"><span class="time">14:03:13</span><span class="dot"></span><div><b>Sensitive-data fixture validated</b><small>4 pre-labelled synthetic identifiers present</small></div><span class="pill neutral">DEMO</span></div>
+            <div class="timeline-row"><span class="time">14:03:13</span><span class="dot"></span><div><b>Downstream context minimised</b><small>4 identifiers masked before downstream processing</small></div><span class="pill success">PASS</span></div>
+            <div class="timeline-row"><span class="time">14:03:15</span><span class="dot"></span><div><b>Claim review completed</b><small>4 claims evaluated with deterministic demo rules</small></div><span class="pill neutral">RULES</span></div>
             <div class="timeline-row"><span class="time">14:03:16</span><span class="dot"></span><div><b>Evidence gap detected</b><small>Dropout claim has no comparable baseline</small></div><span class="pill warning">REVIEW</span></div>
-            <div class="timeline-row"><span class="time">14:03:18</span><span class="dot"></span><div><b>Follow-up drafted</b><small>No side effect · agent lacks send permission</small></div><span class="pill neutral">DRAFT</span></div>
+            <div class="timeline-row"><span class="time">14:03:18</span><span class="dot"></span><div><b>Follow-up drafted</b><small>No side effect · automated step lacks send permission</small></div><span class="pill neutral">DRAFT</span></div>
             <div class="timeline-row"><span class="time">14:04:02</span><span class="dot"></span><div><b>Human approval recorded</b><small>Approver: Demo User · policy: external-action-v1</small></div><span class="pill success">APPROVED</span></div>
-            <div class="timeline-row"><span class="time">14:04:03</span><span class="dot"></span><div><b>Workflow executed</b><small>Simulated n8n / Power Automate connector</small></div><span class="pill success">DONE</span></div>
+            <div class="timeline-row"><span class="time">14:04:03</span><span class="dot"></span><div><b>Workflow adapter executed</b><small>Simulated n8n / Power Automate adapter</small></div><span class="pill success">DONE</span></div>
           </div>
 
           <aside class="audit-meta">
             <h4>Run metadata</h4>
             <dl>
               <div><dt>Run ID</dt><dd>run_01K3MOPS184</dd></div>
-              <div><dt>Prompt version</dt><dd>evidence-review@1.2.0</dd></div>
-              <div><dt>Policy version</dt><dd>safeguarding-gate@1.0</dd></div>
-              <div><dt>Retrieval</dt><dd>hybrid + rerank</dd></div>
+              <div><dt>Engine</dt><dd>deterministic-control-demo@1.0</dd></div>
+              <div><dt>Policy</dt><dd>external-action-v1</dd></div>
+              <div><dt>Retrieval</dt><dd>not integrated in prototype</dd></div>
+              <div><dt>Model</dt><dd>not called in prototype</dd></div>
               <div><dt>Action policy</dt><dd>human approval required</dd></div>
               <div><dt>Data</dt><dd>synthetic only</dd></div>
             </dl>
-            <div class="integrity-box"><span>✓</span><div><b>Trace complete</b><small>All material demo steps have an audit event.</small></div></div>
+            <div class="integrity-box"><span>✓</span><div><b>Trace complete</b><small>All material control-engine steps have an audit event.</small></div></div>
           </aside>
         </div>
       </section>
@@ -281,33 +281,46 @@
         <div class="page-intro">
           <p class="section-kicker">SYSTEM DESIGN</p>
           <h2>Designed around control boundaries, not just model calls.</h2>
-          <p>The prototype separates document handling, sensitive-data controls, evidence retrieval, reasoning, permissions and external execution.</p>
+          <p>The executable prototype focuses on evidence rules, context minimisation, authority gates and auditability. Production model, retrieval and automation adapters are explicit extension points rather than pretend integrations.</p>
         </div>
 
         <div class="architecture-card">
-          <div class="arch-node source"><small>01 · INPUT</small><b>Programme report</b><span>Source preserved + fingerprinted</span></div>
+          <div class="arch-node source"><small>01 · INPUT</small><b>Programme case</b><span>Synthetic source preserved</span></div>
           <span class="arch-arrow">→</span>
-          <div class="arch-node guard"><small>02 · GUARD</small><b>PII / safeguarding</b><span>Classify + minimise context</span></div>
+          <div class="arch-node guard"><small>02 · GUARD</small><b>Sensitive-data gate</b><span>Demo fixture + context minimisation</span></div>
           <span class="arch-arrow">→</span>
-          <div class="arch-node intel"><small>03 · EVIDENCE</small><b>RAG + claim check</b><span>Retrieve + link + score</span></div>
+          <div class="arch-node intel"><small>03 · EVIDENCE</small><b>Claim check</b><span>Deterministic demo · RAG extension point</span></div>
           <span class="arch-arrow">→</span>
-          <div class="arch-node agent"><small>04 · AGENT</small><b>Propose action</b><span>Draft only</span></div>
+          <div class="arch-node agent"><small>04 · DECIDE</small><b>Propose action</b><span>Deterministic demo · LLM extension point</span></div>
           <span class="arch-arrow">→</span>
           <div class="arch-node human"><small>05 · AUTHORITY</small><b>Human approval</b><span>Explicit side-effect gate</span></div>
           <span class="arch-arrow">→</span>
-          <div class="arch-node execute"><small>06 · EXECUTE</small><b>Workflow adapter</b><span>n8n / Power Automate pattern</span></div>
+          <div class="arch-node execute"><small>06 · EXECUTE</small><b>Workflow adapter</b><span>Simulated n8n / Power Automate pattern</span></div>
         </div>
 
         <div class="principles-grid">
-          <article><span>01</span><h4>Evidence first</h4><p>Important claims link back to supporting passages. Missing evidence is a first-class result.</p></article>
-          <article><span>02</span><h4>Minimise before model</h4><p>Sensitive identifiers are removed from model context before generation, not scrubbed afterwards.</p></article>
-          <article><span>03</span><h4>Least privilege</h4><p>The agent can prepare a follow-up but cannot execute external side effects without authority.</p></article>
-          <article><span>04</span><h4>Replayable decisions</h4><p>Inputs, retrieval, policies, approvals and actions leave inspectable events for review and debugging.</p></article>
+          <article><span>01</span><h4>Evidence first</h4><p>Important claims link back to supporting material. Missing evidence is a first-class result.</p></article>
+          <article><span>02</span><h4>Minimise before model</h4><p>The downstream context is minimised before a production model adapter would receive it.</p></article>
+          <article><span>03</span><h4>Least privilege</h4><p>The automated step can prepare work without inheriting authority to execute an external side effect.</p></article>
+          <article><span>04</span><h4>Replayable decisions</h4><p>Inputs, policy decisions, approvals and actions leave inspectable events for review and debugging.</p></article>
         </div>
 
         <div class="scope-card">
-          <div><p class="section-kicker">WHAT THIS DEMO PROVES</p><h3>A narrow workflow can still test the whole operating model.</h3></div>
-          <div class="scope-tags"><span>LLM workflow</span><span>RAG</span><span>Document AI</span><span>Safeguarding</span><span>Privacy</span><span>Human-in-the-loop</span><span>Automation</span><span>Auditability</span></div>
+          <div><p class="section-kicker">WHAT IS IMPLEMENTED</p><h3>A small, testable control plane — with the seams left visible.</h3></div>
+          <div class="scope-tags"><span>Evidence rules</span><span>Data minimisation</span><span>Authority gate</span><span>Audit events</span><span>Executable Python engine</span><span>Regression tests</span><span>Responsive demo UI</span></div>
+        </div>
+
+        <div class="scope-card">
+          <div><p class="section-kicker">PRODUCTION INTEGRATION TARGETS</p><h3>The exact places where Plan’s approved stack could plug in.</h3></div>
+          <div class="scope-tags"><span>Open WebUI / Langdock</span><span>Approved LLM routing</span><span>Scoped RAG</span><span>Identity / RBAC</span><span>n8n / Power Automate</span><span>Retention controls</span><span>Observability + evals</span></div>
+        </div>
+
+        <div class="scope-card">
+          <div><p class="section-kicker">PUBLIC PLAN CONTEXT</p><h3>Grounded in published safeguarding and privacy principles — not invented internal knowledge.</h3></div>
+          <div class="scope-tags">
+            <span><a href="https://www.plan.de/wie-wir-arbeiten/safeguarding-heisst-kinder-innerhalb-unserer-organisation-schuetzen.html" target="_blank" rel="noreferrer">Safeguarding ↗</a></span>
+            <span><a href="https://www.plan.de/datenschutz.html" target="_blank" rel="noreferrer">Data protection ↗</a></span>
+          </div>
         </div>
       </section>
     </main>
@@ -317,7 +330,7 @@
     <div class="drawer-backdrop" data-close-drawer></div>
     <aside class="drawer-panel">
       <button class="drawer-close" data-close-drawer aria-label="Close evidence drawer">×</button>
-      <p class="section-kicker">RETRIEVED EVIDENCE</p>
+      <p class="section-kicker">EVIDENCE FIXTURE</p>
       <h3 id="drawer-title">Claim evidence</h3>
       <div id="drawer-content"></div>
     </aside>
