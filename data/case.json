@@ -1,0 +1,45 @@
+{
+  "case_id": "PID-2026-0184",
+  "programme": "Girls’ Education Programme — Midterm Review",
+  "synthetic": true,
+  "claims": [
+    {
+      "id": "attendance",
+      "text": "School attendance increased by 18%",
+      "baseline": 68,
+      "current": 86,
+      "denominator_defined": true,
+      "evidence": ["attendance_register", "baseline_table"]
+    },
+    {
+      "id": "participants",
+      "text": "240 girls completed the programme",
+      "current": 240,
+      "denominator_defined": true,
+      "evidence": ["completion_register"]
+    },
+    {
+      "id": "dropout",
+      "text": "Dropout decreased significantly",
+      "comparative": true,
+      "baseline": null,
+      "current": null,
+      "denominator_defined": false,
+      "evidence": ["narrative_report"]
+    },
+    {
+      "id": "acceptance",
+      "text": "Community acceptance improved",
+      "qualitative": true,
+      "interview_count": 3,
+      "evidence": ["stakeholder_interviews"]
+    }
+  ],
+  "sensitive_text": "Facilitator Asha Demo worked in Ward 99, Demo Municipality. Participant Mina Example was referenced. Family contact: +977 000 000 000.",
+  "synthetic_identifiers": [
+    {"type": "PERSON", "value": "Asha Demo"},
+    {"type": "LOCATION", "value": "Ward 99, Demo Municipality"},
+    {"type": "CHILD_NAME", "value": "Mina Example"},
+    {"type": "PHONE", "value": "+977 000 000 000"}
+  ]
+}
