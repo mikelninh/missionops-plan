@@ -73,6 +73,36 @@ const draftBody = document.querySelector(".draft-body");
 let maxStep = 1;
 let approved = false;
 
+function polishLanding() {
+  const eyebrow = document.querySelector(".topbar .eyebrow");
+  const badge = document.querySelector(".hero-copy .badge");
+  const title = document.querySelector(".hero-copy h2");
+  const copy = document.querySelector(".hero-copy > p");
+  const primary = document.getElementById("start-demo");
+  const secondary = document.querySelector(".hero-actions .secondary-btn");
+
+  if (eyebrow) eyebrow.textContent = "PLAN INTERNATIONAL · KI ENGINEER · UNOFFICIAL PROOF OF WORK";
+  if (badge) badge.textContent = "Built specifically for this role";
+  if (title) title.textContent = "A small proof of how I would make internal AI useful — without giving it unchecked authority.";
+  if (copy) {
+    copy.textContent = "The role combines AI interfaces, workflows, privacy-aware operations and stakeholder translation. MissionOps turns that into one concrete path: project report → evidence gap → sensitive-context gate → human-approved action.";
+  }
+  if (primary) primary.innerHTML = "Try the 90-second demo <span>→</span>";
+  if (secondary) secondary.textContent = "Inspect the controls";
+
+  if (copy && !document.querySelector(".hero-copy .scope-tags")) {
+    const signals = document.createElement("div");
+    signals.className = "scope-tags";
+    signals.style.marginTop = "18px";
+    signals.innerHTML = [
+      "Evidence stays inspectable",
+      "Sensitive context is minimised",
+      "Humans keep authority"
+    ].map((label) => `<span>${label}</span>`).join("");
+    copy.insertAdjacentElement("afterend", signals);
+  }
+}
+
 function setView(name) {
   Object.entries(views).forEach(([key, el]) => {
     el.classList.toggle("active", key === name);
@@ -211,4 +241,5 @@ document.getElementById("approve-action").addEventListener("click", (event) => {
   }, 520);
 });
 
+polishLanding();
 renderStepAccess();
