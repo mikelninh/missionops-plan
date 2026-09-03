@@ -1,59 +1,52 @@
 const evidence = {
   attendance: {
     title: "School attendance increased by 18%",
-    verdict: "Supported. A baseline value and a comparable current-period value are present, with the same denominator definition.",
+    verdict: "Supported in the synthetic fixture. A baseline value and a comparable current-period value are present with the same denominator definition.",
     blocks: [
       {
         source: "Synthetic Midterm Report · p. 7",
-        score: "0.96",
         text: "Average monthly attendance among enrolled participants increased from 68% at baseline to 86% during the current reporting period."
       },
       {
         source: "Synthetic Attendance Register · rows 14–253",
-        score: "0.92",
         text: "240 programme participants are represented in the attendance export used for the midterm calculation."
       }
     ]
   },
   participants: {
     title: "240 girls completed the programme",
-    verdict: "Supported. The completion register contains 240 unique synthetic participant IDs with a completed status.",
+    verdict: "Supported in the synthetic fixture. The completion register contains 240 unique synthetic participant IDs with a completed status.",
     blocks: [
       {
         source: "Synthetic Completion Register · p. 2",
-        score: "0.97",
         text: "Completion status: 240 unique programme participant IDs marked completed for the reporting period."
       }
     ]
   },
   dropout: {
     title: "Dropout decreased significantly",
-    verdict: "Missing evidence. The report uses comparative language but the retrieved evidence contains no comparable baseline dropout rate or denominator.",
+    verdict: "Missing evidence in the synthetic fixture. Comparative language is present, but there is no comparable baseline dropout rate or denominator.",
     blocks: [
       {
         source: "Synthetic Midterm Report · p. 8",
-        score: "0.91",
         text: "Programme staff observed that dropout decreased significantly during the reporting period."
       },
       {
-        source: "Evidence search result",
-        score: "—",
-        text: "No baseline dropout value, prior-period comparison, or denominator definition was found in the current evidence set."
+        source: "Synthetic evidence-set check",
+        text: "No baseline dropout value, prior-period comparison, or denominator definition is present in the current fixture."
       }
     ]
   },
   acceptance: {
     title: "Community acceptance improved",
-    verdict: "Weak evidence. The direction is plausible, but three stakeholder interviews are not enough to support a broad population-level claim without qualification.",
+    verdict: "Weak evidence in the synthetic fixture. Three interviews do not justify a broad population-level claim without qualification.",
     blocks: [
       {
         source: "Synthetic Interview Notes · INT-01",
-        score: "0.82",
         text: "A parent representative described increased support for continued school attendance among families participating in the local sessions."
       },
       {
         source: "Synthetic Interview Notes · INT-02–03",
-        score: "0.79",
         text: "Two additional stakeholders reported more positive discussion around girls' education, while noting that resistance remains in some households."
       }
     ]
@@ -74,6 +67,11 @@ const hero = document.querySelector(".hero-card");
 const drawer = document.getElementById("evidence-drawer");
 const drawerTitle = document.getElementById("drawer-title");
 const drawerContent = document.getElementById("drawer-content");
+const editDraftButton = document.querySelector(".draft-card .secondary-btn");
+const draftBody = document.querySelector(".draft-body");
+
+let maxStep = 1;
+let approved = false;
 
 function setView(name) {
   Object.entries(views).forEach(([key, el]) => {
@@ -87,8 +85,20 @@ function setView(name) {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-function setStep(stepNumber) {
+function renderStepAccess() {
+  steps.forEach((step) => {
+    const n = Number(step.dataset.step);
+    const locked = n > maxStep;
+    step.disabled = locked;
+    step.setAttribute("aria-disabled", String(locked));
+    step.title = locked ? "Complete the previous control step first" : "";
+  });
+}
+
+function setStep(stepNumber, unlock = false) {
   const current = Number(stepNumber);
+  if (unlock) maxStep = Math.max(maxStep, current);
+  if (current > maxStep) return;
 
   steps.forEach((step) => {
     const n = Number(step.dataset.step);
@@ -100,6 +110,8 @@ function setStep(stepNumber) {
     panel.classList.toggle("active", panel.id === `step-${current}`);
   });
 
+  renderStepAccess();
+
   const target = document.getElementById(`step-${current}`);
   if (target) {
     target.scrollIntoView({ behavior: "smooth", block: "nearest" });
@@ -109,6 +121,8 @@ function setStep(stepNumber) {
 function openDemo() {
   workspace.classList.remove("hidden");
   hero.style.display = "none";
+  maxStep = 1;
+  approved = false;
   setStep(1);
   workspace.scrollIntoView({ behavior: "smooth", block: "start" });
 }
@@ -123,12 +137,12 @@ function openEvidence(key) {
       <div class="evidence-block">
         <div class="source">
           <span>${block.source}</span>
-          <span>relevance ${block.score}</span>
+          <span>synthetic fixture</span>
         </div>
         <p>${block.text}</p>
       </div>
     `).join("")}
-    <div class="evidence-verdict"><strong>Verdict</strong><br>${item.verdict}</div>
+    <div class="evidence-verdict"><strong>Fixture verdict</strong><br>${item.verdict}</div>
   `;
 
   drawer.classList.add("open");
@@ -159,7 +173,7 @@ steps.forEach((step) => {
 });
 
 document.querySelectorAll(".next-step").forEach((button) => {
-  button.addEventListener("click", () => setStep(button.dataset.next));
+  button.addEventListener("click", () => setStep(button.dataset.next, true));
 });
 
 document.querySelectorAll(".claim-row").forEach((row) => {
@@ -174,13 +188,27 @@ document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") closeDrawer();
 });
 
+if (editDraftButton && draftBody) {
+  editDraftButton.addEventListener("click", () => {
+    const editing = draftBody.getAttribute("contenteditable") === "true";
+    draftBody.setAttribute("contenteditable", String(!editing));
+    editDraftButton.textContent = editing ? "Edit draft" : "Finish editing";
+    if (!editing) draftBody.focus();
+  });
+}
+
 document.getElementById("approve-action").addEventListener("click", (event) => {
   const button = event.currentTarget;
+  if (approved) return;
+
+  approved = true;
   button.disabled = true;
-  button.textContent = "Executing…";
+  button.textContent = "Executing simulated adapter…";
 
   window.setTimeout(() => {
     button.textContent = "Approved ✓";
-    setStep(5);
+    setStep(5, true);
   }, 520);
 });
+
+renderStepAccess();
