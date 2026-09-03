@@ -2,46 +2,95 @@
 
 **Unofficial proof of work for the KI Engineer (d/w/m) role at Plan International Deutschland e.V.**
 
-MissionOps demonstrates one focused workflow:
+MissionOps demonstrates one focused operating workflow:
 
 > **Project report → evidence gaps → safeguarding/PII gate → human-approved follow-up → audit trail**
 
-The demo is intentionally small. It is designed to show how an internal AI system can help programme teams work faster while keeping evidence, privacy, safeguarding and human accountability visible.
+The point is not to build another generic NGO chatbot. The point is to show how internal AI can help programme teams move faster while making evidence, privacy, safeguarding and human accountability more visible.
 
-## Golden case
+## 90-second demo
 
-A synthetic midterm programme report is reviewed by an AI workflow that:
+Open `index.html` and follow the golden case:
 
-1. extracts programme claims and indicators,
-2. links each claim to evidence,
-3. flags unsupported or weakly supported statements,
-4. detects and masks sensitive information before model processing,
-5. recommends a follow-up action,
-6. requires explicit human approval before execution,
-7. records the complete audit trail.
+1. inspect claim-to-evidence links,
+2. surface missing/weak evidence,
+3. minimise synthetic sensitive identifiers before model processing,
+4. generate a recommended clarification,
+5. hit the explicit human approval gate,
+6. inspect the resulting audit trail.
+
+The interface is intentionally static and dependency-free so it can be deployed anywhere in seconds.
+
+## The golden case
+
+A synthetic midterm programme report is reviewed by a trustworthy AI workflow that:
+
+- evaluates programme claims against evidence,
+- preserves uncertainty instead of inventing missing support,
+- detects and masks sensitive information before downstream AI processing,
+- recommends the next useful action,
+- lets the agent prepare but not autonomously send an external message,
+- requires explicit human approval for the side effect,
+- records the decision path in an inspectable audit trail.
+
+## Not just a mockup
+
+The repository includes a small executable control engine in `engine/missionops.py` plus tests for the highest-risk behaviours:
+
+- sensitive-data minimisation,
+- unsupported comparative claims,
+- weak qualitative evidence,
+- blocked execution without approval,
+- successful execution only after approval,
+- audit-event generation.
+
+Run it with:
+
+```bash
+python engine/missionops.py
+python -m unittest discover -s tests -v
+```
+
+No third-party Python packages are required.
+
+## Repository map
+
+```text
+index.html                      interactive 90-second demo
+styles.css / app.js             UI + demo state machine
+data/synthetic-midterm-report.md human-readable synthetic case
+data/case.json                  machine-readable golden case
+engine/missionops.py            evidence/privacy/authority controls
+tests/test_missionops.py        safety + workflow tests
+evals/golden-cases.md           production-oriented evaluation design
+docs/architecture.md            trust boundaries + extension path
+.github/workflows/ci.yml        automated golden-case test run
+```
 
 ## Why this proof exists
 
-The role at Plan International combines internal AI interfaces, workflow automation, RAG/LLMs, stakeholder requirements, privacy, operations and continuous improvement. MissionOps turns those concerns into one inspectable end-to-end flow.
+The advertised role combines internal AI interfaces, workflow automation, RAG/LLMs, stakeholder requirements, privacy, operations and continuous improvement. MissionOps turns those concerns into one inspectable end-to-end flow rather than a list of technologies.
 
-## Demo principles
+## Design principles
 
-- **Evidence first** — no important claim without a traceable source.
-- **Safeguarding by design** — sensitive data is detected and minimised before AI processing.
-- **Human authority** — external actions require explicit approval.
-- **Auditable AI** — retrieval, model steps, approvals and actions are visible.
-- **Synthetic data only** — the demo contains no real beneficiary or programme data.
+- **Evidence first** — important claims link back to supporting material.
+- **Uncertainty stays visible** — missing evidence is a valid result.
+- **Safeguarding by design** — sensitive data is minimised before downstream AI processing.
+- **Least privilege** — the agent can prepare work without inheriting authority to execute it.
+- **Human authority** — external side effects require explicit approval in this case.
+- **Auditable AI** — retrieval, policy decisions, approvals and actions leave a trace.
+- **Synthetic data only** — no real beneficiary or programme data is used anywhere in the demo.
 
-## Run locally
-
-Open `index.html` directly in a browser or serve the repository as a static site.
+## Run the UI locally
 
 ```bash
 python -m http.server 8000
 ```
 
-Then visit `http://localhost:8000`.
+Then open `http://localhost:8000`.
 
-## Status
+## Production path
 
-Demo build in progress.
+A production implementation would add organisation-approved model routing, identity/RBAC, encrypted storage, authorised retrieval scopes, configurable retention, real n8n/Power Automate adapters, observability, regression evals and the appropriate security/privacy review for the actual processing context.
+
+This prototype does **not** claim to be an approved Plan International system or a complete GDPR/safeguarding implementation. It is an unsolicited technical proof of work built entirely with synthetic data.
