@@ -1,65 +1,91 @@
 # Architecture — MissionOps
 
-MissionOps is a deliberately narrow proof of work. Its purpose is not to claim production readiness; it demonstrates the control boundaries that would matter in a real internal AI workflow.
+MissionOps is deliberately narrow. It demonstrates a **control plane around an AI-assisted workflow** without pretending that every production adapter already exists.
 
-## End-to-end path
+## What executes in this repository
 
 ```text
-Programme report
+Synthetic programme case
       ↓
-Source preservation + fingerprint
+Synthetic-data assertion
       ↓
-Sensitive-data / safeguarding classification
+Pre-labelled sensitive fixture
       ↓
 Context minimisation
       ↓
-Evidence retrieval
+Deterministic claim checks
       ↓
-Claim-to-evidence evaluation
+Recommended clarification action
       ↓
-Recommended action
-      ↓
-Draft only
+Draft-only authority boundary
       ↓
 Human approval gate
       ↓
-Workflow adapter (n8n / Power Automate pattern)
+Simulated workflow adapter
       ↓
-Audit event
+Structured audit events
 ```
+
+## Production extension path
+
+```text
+Authorised programme source
+      ↓
+Source integrity / document controls
+      ↓
+PII + safeguarding classifier
+      ↓
+Context minimisation
+      ↓
+Authorised retrieval / RAG
+      ↓
+Claim-to-evidence evaluation
+      ↓
+Approved model / reasoning layer
+      ↓
+Policy engine
+      ↓
+Human approval where required
+      ↓
+n8n / Power Automate adapter
+      ↓
+Observability + audit
+```
+
+The two paths are intentionally separated so a reviewer can see what is **implemented now** and what is an **integration target**.
 
 ## Trust boundaries
 
 ### 1. Source boundary
 
-The original source is preserved. AI transformations do not overwrite the input artefact.
+The demo reads an explicitly synthetic fixture and refuses data that is not marked synthetic. A production implementation would add document integrity, authorised storage and retention controls.
 
 ### 2. Sensitive-data boundary
 
-PII/sensitive fields are classified before downstream model processing. The system should operate on the minimum context required for the task.
+The demo uses pre-labelled synthetic identifiers to test whether downstream context is correctly minimised. It does **not** claim to implement a production PII/NER classifier. That classifier is a replaceable adapter in the production path.
 
 ### 3. Evidence boundary
 
-Important generated claims must be linked to retrieved evidence. Missing evidence is allowed to remain missing; the model must not fill the gap with plausible prose.
+The demo evaluates explicit evidence fields with deterministic rules. It demonstrates the behaviour that missing support must remain missing. Production retrieval would sit behind this boundary and would need its own citation and retrieval evals.
 
 ### 4. Authority boundary
 
-The agent may prepare low-risk work but does not inherit authority to create external side effects. Actions such as sending messages, updating records or triggering downstream workflows require an explicit policy decision and, for this case, human approval.
+The automated step may prepare low-risk work but does not inherit authority to create an external side effect. The Python engine raises a `PermissionError` if execution is attempted before approval. The browser demo mirrors this by keeping the final step locked until approval occurs.
 
 ### 5. Audit boundary
 
-Material steps emit structured events: source ingestion, sensitive-data classification, retrieval, claim evaluation, proposal, approval and execution.
+Material control-engine steps emit structured events: validation, context minimisation, claim review, proposal, approval, blocked execution and successful simulated execution.
 
-## Production extension
+## Why adapters matter
 
-A real deployment would replace the static demo components with:
+The advertised role spans internal AI interfaces, workflows, privacy and operational ownership. For that reason the prototype keeps model, retrieval and workflow execution replaceable rather than coupling trust decisions to one provider.
 
+Potential production adapters include:
+
+- Open WebUI / Langdock for the internal user surface,
 - organisation-approved model routing,
-- identity and role-based access control,
-- encrypted document storage,
-- configurable retention policies,
 - retrieval over authorised document scopes,
-- structured policy evaluation,
+- identity and role-based access control,
 - real n8n / Power Automate connectors,
 - observability and failure handling,
 - evaluation suites and regression gates,
@@ -67,4 +93,4 @@ A real deployment would replace the static demo components with:
 
 ## Non-claims
 
-This repository does **not** claim to be an approved Plan International system, a production safeguarding solution, or a complete GDPR compliance implementation. It is an unsolicited technical proof of work built entirely with synthetic data.
+This repository does **not** claim to be an approved Plan International system, a production safeguarding solution, an existing Plan workflow, or a complete GDPR compliance implementation. It is an unsolicited technical proof of work built entirely with synthetic data and public Plan context.
