@@ -39,15 +39,39 @@ class MissionOpsTests(unittest.TestCase):
             self.engine.execute(action)
         self.assertEqual(self.engine.audit[-1].status, "blocked")
 
+    def test_approval_is_bound_to_exact_action(self):
+        claims = self.engine.review_claims()
+        action = self.engine.propose_action(claims)
+        self.engine.approve(action, "Test Approver")
+
+        changed_action = dict(action)
+        changed_action["target"] = "different_team"
+
+        with self.assertRaises(PermissionError):
+            self.engine.execute(changed_action)
+        self.assertEqual(self.engine.audit[-1].event, "execution_blocked")
+
     def test_approved_action_executes_and_is_audited(self):
         claims = self.engine.review_claims()
         action = self.engine.propose_action(claims)
-        self.engine.approve("Test Approver")
+        action_key = self.engine.approve(action, "Test Approver")
         result = self.engine.execute(action)
         self.assertEqual(result["status"], "simulated_success")
+        self.assertEqual(result["action_key"], action_key)
         events = [event.event for event in self.engine.audit]
         self.assertIn("human_approval", events)
         self.assertIn("workflow_executed", events)
+
+    def test_duplicate_execution_is_blocked(self):
+        claims = self.engine.review_claims()
+        action = self.engine.propose_action(claims)
+        self.engine.approve(action, "Test Approver")
+        self.engine.execute(action)
+
+        with self.assertRaises(RuntimeError):
+            self.engine.execute(action)
+        self.assertEqual(self.engine.audit[-1].event, "duplicate_execution_blocked")
+        self.assertEqual(self.engine.audit[-1].status, "blocked")
 
 
 if __name__ == "__main__":
