@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 from dataclasses import dataclass, asdict
 from pathlib import Path
@@ -17,18 +18,24 @@ class MissionOpsEngine:
     """Small deterministic engine for the synthetic MissionOps golden case.
 
     This is intentionally not an LLM implementation. It demonstrates the control
-    logic around an AI workflow: evidence checks, context minimisation, authority
-    gates and auditability. Model/retrieval components can sit behind these same
-    boundaries in a production implementation.
+    logic around an AI-assisted workflow: evidence checks, context minimisation,
+    action-bound approvals, idempotent execution and auditability. Model and
+    retrieval components can sit behind these same boundaries in production.
     """
 
     def __init__(self, case: dict[str, Any]):
         self.case = case
         self.audit: list[AuditEvent] = []
-        self.approved = False
+        self.approved_action_key: str | None = None
+        self.executed_action_keys: set[str] = set()
 
     def _log(self, event: str, detail: str, status: str = "ok") -> None:
         self.audit.append(AuditEvent(event=event, detail=detail, status=status))
+
+    @staticmethod
+    def _action_key(action: dict[str, Any]) -> str:
+        canonical = json.dumps(action, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+        return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
 
     def validate_case(self) -> None:
         if not self.case.get("synthetic"):
@@ -46,7 +53,7 @@ class MissionOpsEngine:
 
         self._log(
             "context_minimised",
-            f"{len(identifiers)} synthetic identifiers removed before downstream processing",
+            f"{len(identifiers)} pre-labelled synthetic identifiers removed from downstream context",
         )
         return text
 
@@ -87,12 +94,12 @@ class MissionOpsEngine:
                 }
             )
 
-        gaps = sum(1 for r in results if r["status"] != "supported")
+        gaps = sum(1 for result in results if result["status"] != "supported")
         self._log("claims_reviewed", f"{len(results)} claims reviewed; {gaps} need attention")
         return results
 
     def propose_action(self, claim_results: list[dict[str, Any]]) -> dict[str, Any]:
-        dropout = next((r for r in claim_results if r["claim_id"] == "dropout"), None)
+        dropout = next((result for result in claim_results if result["claim_id"] == "dropout"), None)
         if not dropout or dropout["status"] != "missing_evidence":
             action = {
                 "type": "none",
@@ -116,27 +123,42 @@ class MissionOpsEngine:
         self._log("action_proposed", action["type"])
         return action
 
-    def approve(self, approver: str) -> None:
+    def approve(self, action: dict[str, Any], approver: str) -> str:
         if not approver.strip():
             raise ValueError("Approver identity is required")
-        self.approved = True
-        self._log("human_approval", f"Approved by {approver}")
+
+        action_key = self._action_key(action)
+        self.approved_action_key = action_key
+        self._log("human_approval", f"Approved by {approver}; action={action_key[:12]}")
+        return action_key
 
     def execute(self, action: dict[str, Any]) -> dict[str, Any]:
-        if action.get("requires_human_approval") and not self.approved:
+        action_key = self._action_key(action)
+
+        if action_key in self.executed_action_keys:
             self._log(
-                "execution_blocked",
-                "External side effect blocked because no human approval exists",
+                "duplicate_execution_blocked",
+                f"Action already executed; action={action_key[:12]}",
                 status="blocked",
             )
-            raise PermissionError("Human approval required before external execution")
+            raise RuntimeError("Duplicate execution blocked")
+
+        if action.get("requires_human_approval") and self.approved_action_key != action_key:
+            self._log(
+                "execution_blocked",
+                f"No approval bound to requested action; action={action_key[:12]}",
+                status="blocked",
+            )
+            raise PermissionError("Human approval for this exact action is required before execution")
 
         result = {
             "status": "simulated_success",
             "adapter": "n8n_or_power_automate_pattern",
             "action": action.get("type"),
+            "action_key": action_key,
         }
-        self._log("workflow_executed", result["action"])
+        self.executed_action_keys.add(action_key)
+        self._log("workflow_executed", f"{result['action']}; action={action_key[:12]}")
         return result
 
     def audit_dicts(self) -> list[dict[str, str]]:
@@ -154,7 +176,7 @@ def run_case(case_path: Path, approve: bool = True) -> dict[str, Any]:
 
     execution: dict[str, Any] | None = None
     if approve and action.get("requires_human_approval"):
-        engine.approve("Demo User")
+        engine.approve(action, "Demo User")
         execution = engine.execute(action)
 
     return {
