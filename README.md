@@ -97,8 +97,22 @@ evals/golden-cases.md            production-oriented evaluation design
 docs/architecture.md             trust boundaries + extension path
 docs/plan-context.md             public Plan context used for this proof
 .github/workflows/ci.yml         automated control-engine tests
-.github/workflows/pages.yml      GitHub Pages deployment
+.nojekyll                        direct static GitHub Pages publishing
 ```
+
+## Deployment
+
+The demo does not need Vercel, a framework or a build step. It is designed to publish directly from the repository root with GitHub Pages.
+
+One-time repository setting:
+
+1. `Settings → Pages`
+2. Source: `Deploy from a branch`
+3. Branch: `main`
+4. Folder: `/ (root)`
+5. Save
+
+After that, pushes to `main` publish the static demo automatically.
 
 ## Why this proof exists
 
