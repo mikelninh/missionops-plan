@@ -1,0 +1,26 @@
+{
+  "version": "security-posture/v1",
+  "project": { "id": "missionops-plan", "repository": "mikelninh/missionops-plan", "domain": "humanitarian programme evidence and safeguarded workflow assistance" },
+  "thesis": "Programme evidence may inform a recommendation, but sensitive beneficiary context and external follow-up authority remain behind deterministic minimisation and human approval.",
+  "controls": [
+    { "id": "authority_outside_model", "status": "implemented", "evidence": [{ "type": "code", "path": "engine/missionops.py", "claim": "External workflow effects are prepared by deterministic rules and cannot execute without explicit approval." }, { "type": "doc", "path": "README.md", "claim": "Least privilege and human authority are explicit design principles." }] },
+    { "id": "least_privilege", "status": "implemented", "evidence": [{ "type": "code", "path": "engine/missionops.py", "claim": "Automated steps prepare work without inheriting external execution authority." }] },
+    { "id": "tenant_isolation", "status": "not_proven", "evidence": [{ "type": "doc", "path": "README.md", "claim": "The public proof is synthetic and does not claim production identity/RBAC or organisational tenancy." }] },
+    { "id": "human_approval", "status": "implemented", "evidence": [{ "type": "test", "path": "tests/test_missionops.py", "claim": "Execution without approval is blocked and simulated execution occurs only after approval." }] },
+    { "id": "provenance", "status": "implemented", "evidence": [{ "type": "code", "path": "engine/missionops.py", "claim": "Programme claims are evaluated against explicit synthetic evidence fixtures and unsupported claims remain visible." }] },
+    { "id": "protected_data", "status": "implemented", "evidence": [{ "type": "test", "path": "tests/test_missionops.py", "claim": "Sensitive-context minimisation and synthetic-data-only enforcement are regression-tested." }, { "type": "doc", "path": "README.md", "claim": "Safeguarding by design minimises sensitive context before downstream AI integration." }] },
+    { "id": "bounded_execution", "status": "partial", "evidence": [{ "type": "code", "path": "engine/missionops.py", "claim": "The demonstrated workflow has a bounded deterministic state machine and no autonomous external connector." }] },
+    { "id": "auditability", "status": "implemented", "evidence": [{ "type": "test", "path": "tests/test_missionops.py", "claim": "Structured audit-event generation is regression-tested." }] },
+    { "id": "supply_chain", "status": "not_proven", "evidence": [{ "type": "doc", "path": "README.md", "claim": "Organisation-approved LLM routing and production integration choices are explicitly future targets rather than present claims." }] },
+    { "id": "adversarial_evals", "status": "partial", "evidence": [{ "type": "test", "path": "tests/test_missionops.py", "claim": "High-risk privacy/authority failure modes are tested, but there is not yet a dedicated prompt-injection/agentic red-team suite." }] },
+    { "id": "production_monitoring", "status": "not_proven", "evidence": [{ "type": "doc", "path": "README.md", "claim": "Production observability and security review are explicit future integration targets." }] }
+  ],
+  "adversarial": { "taxonomy": "No dedicated agentic-security gauntlet published yet", "cases": 0, "passed": 0, "criticalEscapes": 0, "liveModel": false },
+  "claims": { "productionSecure": false, "promptInjectionSolved": false, "certified": false },
+  "residualRisks": [
+    "No dedicated adversarial prompt-injection or agentic-security suite is published yet.",
+    "Identity, RBAC, encrypted storage, retention and production observability are integration targets rather than proven controls in this static proof.",
+    "Real PII/NER classification and organisation-approved model routing require the actual deployment context.",
+    "The prototype is not an approved Plan International system and uses no real beneficiary data."
+  ]
+}
